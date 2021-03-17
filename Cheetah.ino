@@ -8,7 +8,18 @@
 // Version Alpha 0.1 - Buttons
 // ************************************************************************
 
+#include <Bounce2.h>
 #include <MIDI.h>
+
+#define LED 13
+#define MAJ_PIN 2
+#define MIN_PIN 3
+#define DOM_PIN 4
+
+// Instantiate Bounce object
+Bounce Maj = Bounce();
+Bounce Min = Bounce();
+Bounce Dom = Bounce();
 
 MIDI_CREATE_DEFAULT_INSTANCE();
 
@@ -31,6 +42,18 @@ byte licks[numLicks][17] = {
 
 
 void setup() {
+  pinMode(LED, OUTPUT);
+  pinMode(MAJ_PIN, INPUT_PULLUP);
+  pinMode(MIN_PIN, INPUT_PULLUP);
+  pinMode(DOM_PIN, INPUT_PULLUP);
+
+  Maj.attach(MAJ_PIN);
+  Maj.interval(5);
+  Min.attach(MIN_PIN);
+  Min.interval(5);
+  Dom.attach(DOM_PIN);
+  Dom.interval(5);
+
   MIDI.begin(MIDI_CHANNEL_OMNI);
   MIDI.turnThruOff();
   MIDI.setHandleNoteOn(HandleNoteOn);
@@ -41,6 +64,8 @@ void setup() {
 
 void loop() {
   MIDI.read();
+  Maj.update();
+  pedalValue = Maj.read();
 }
 
 void HandleNoteOn(byte channel, byte pitch, byte velocity) {
