@@ -12,9 +12,9 @@
 #include <MIDI.h>
 
 #define LED 13
-#define MAJ_PIN 2
+#define MAJ_PIN 4
 #define MIN_PIN 3
-#define DOM_PIN 4
+#define DOM_PIN 2
 
 // Instantiate Bounce object
 Bounce Maj = Bounce();
