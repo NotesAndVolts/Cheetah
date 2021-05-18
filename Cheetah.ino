@@ -5,7 +5,7 @@
 //
 // ** Requires Arduino MIDI Library v4.2 or later **
 // ************************************************************************
-// Version Alpha 0.2 - Buttons
+// Version Alpha 0.2.1
 // ************************************************************************
 
 #include <Bounce2.h>
@@ -35,7 +35,7 @@ byte lowNote = 255;
 byte scaleType = 1;
 
 //Licks - end Lick with 255
-byte licks[numLicks][17] = {
+byte minLicks[numLicks][17] = {
   {15, 12, 10, 7, 12, 10, 7, 5, 10, 7, 5, 3, 7, 5, 3, 0, 255},
   {0, 5, 3, 7, 5, 10, 7, 12, 255},
   {0, 3, 5, 7, 10, 12, 7, 10, 5, 7, 3, 5, 0, 3, 255}
@@ -89,7 +89,7 @@ void buttonUpdate() {
     if (buttonValue == LOW) {
       digitalWrite(LED, HIGH );
       noteBuffer(255, true);
-      scaleType = 1;
+      scaleType = 2;
       pedalValue = LOW;
     }
     else {
@@ -108,7 +108,7 @@ void buttonUpdate() {
     if (buttonValue == LOW) {
       digitalWrite(LED, HIGH );
       noteBuffer(255, true);
-      scaleType = 2;
+      scaleType = 1;
       pedalValue = LOW;
     }
     else {
@@ -150,10 +150,10 @@ void HandleNoteOn(byte channel, byte pitch, byte velocity) {
   MIDI.sendNoteOff(lastLick, 0, channel);
   switch (scaleType) {
     case 1:
-      lastLick = lowNote + licks[currentLick][notePos];
+      lastLick = lowNote + minLicks[currentLick][notePos];
       MIDI.sendNoteOn(lastLick, velocity, channel);
       notePos = notePos + 1;
-      if (licks[currentLick][notePos] == 255) {
+      if (minLicks[currentLick][notePos] == 255) {
         notePos = 0;
         currentLick++;
         if ((currentLick) >= numLicks) currentLick = 0;
