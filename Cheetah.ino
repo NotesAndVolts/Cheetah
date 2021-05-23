@@ -5,7 +5,7 @@
 //
 // ** Requires Arduino MIDI Library v4.2 or later **
 // ************************************************************************
-// Version Alpha 0.2.1
+// Version Alpha 0.2.1 Work_5_22
 // ************************************************************************
 
 #include <Bounce2.h>
@@ -222,7 +222,7 @@ bool noteBuffer(byte note, bool noteIn) {
       }
     }
     howFull = 0;
-    MIDI.sendSysEx(bufferSize, noteBuff, false);
+    //MIDI.sendSysEx(bufferSize, noteBuff, false);
     return true;
   }
 
@@ -232,7 +232,7 @@ bool noteBuffer(byte note, bool noteIn) {
       if (noteBuff[i] == 0) {
         noteBuff[i] = note;
         howFull++;
-        MIDI.sendSysEx(bufferSize, noteBuff, false);
+        //MIDI.sendSysEx(bufferSize, noteBuff, false);
         return true;
       }
     }
@@ -244,7 +244,7 @@ bool noteBuffer(byte note, bool noteIn) {
       if (noteBuff[i] == note) {
         noteBuff[i] = 0;
         howFull--;
-        MIDI.sendSysEx(bufferSize, noteBuff, false);
+        //MIDI.sendSysEx(bufferSize, noteBuff, false);
         return true;
       }
     }
